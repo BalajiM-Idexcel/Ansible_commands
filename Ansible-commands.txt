@@ -474,7 +474,28 @@ ctrl+c
 
 
 
-	
+	---
+- name: launch instance
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  become: yes
+  tasks:
+    - name: launch ec2 instance
+      amazon.aws.ec2_instance:
+        key_name: "AnsibleKey"
+        region: "us-east-1"
+        image:
+          id: "ami-06aa3f7caf3a30282"
+        instance_type: "t2.micro"
+        count: 1
+        group: "sg-06ffdc9540e0259aa"
+        wait: yes
+        state: present
+      register: ec2_instance
+    - debug:
+        msg: "{{ ec2_instance }}"
+
 	
 
 	
